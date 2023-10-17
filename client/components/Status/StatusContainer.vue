@@ -1,3 +1,9 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import StatusDisplay from "./StatusDisplay.vue";
+import StatusDropdown from "./StatusDropdown.vue";
+</script>
 
-<template></template>
+<template>
+  <StatusDisplay />
+  <StatusDropdown />
+</template>

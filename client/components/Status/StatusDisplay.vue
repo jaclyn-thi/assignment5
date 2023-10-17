@@ -1,20 +1,15 @@
 <script setup lang="ts">
-import { useUserStore } from "@/stores/user";
-import { storeToRefs } from "pinia";
-import { fetchy } from "../../utils/fetchy";
+import { ref } from "vue";
 
-const { currentUsername } = storeToRefs(useUserStore());
-const getStatus = async (username: string) => {
-  try {
-    await fetchy("/api/status", "GET", {
-      body: username,
-    });
-  } catch (_) {
-    return;
-  }
+const props = defineProps(["selectedStatus"]);
+const displayedStatus = ref(props.selectedStatus);
+
+const updateDisplay = async (status: string) => {
+  displayedStatus.value = status;
+  return;
 };
 </script>
 
 <template>
-  <div></div>
+  <div @statusChange="updateDisplay">{{ displayedStatus }}</div>
 </template>
