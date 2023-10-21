@@ -257,7 +257,7 @@ class Routes {
     return await Task.updateTask(_id, update);
   }
 
-  @Router.post("/status/:user")
+  @Router.post("/status")
   async createStatus(session: WebSessionDoc) {
     const user = WebSession.getUser(session);
     const ret = await Status.create(user);
@@ -271,7 +271,7 @@ class Routes {
     return { msg: "Status found!", status: stat };
   }
 
-  @Router.put("/status/:user")
+  @Router.put("/status")
   async updateStatus(session: WebSessionDoc, newStatus: string) {
     const user = WebSession.getUser(session);
     if (newStatus !== "Online" && newStatus !== "Offline" && newStatus !== "Away" && newStatus !== "Focus") {

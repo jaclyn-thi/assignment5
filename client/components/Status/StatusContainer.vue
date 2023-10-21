@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import StatusDisplay from "./StatusDisplay.vue";
 import StatusDropdown from "./StatusDropdown.vue";
 </script>
 
 <template>
-  <StatusDisplay />
+  <!-- <StatusDisplay /> -->
   <StatusDropdown />
 </template>

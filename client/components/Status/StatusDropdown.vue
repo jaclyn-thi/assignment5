@@ -1,33 +1,45 @@
 <script setup lang="ts">
+import { useUserStore } from "@/stores/user";
+import { storeToRefs } from "pinia";
+import { onBeforeMount, ref } from "vue";
 import { fetchy } from "../../utils/fetchy";
-//import { ref } from "vue";
+const { currentUsername } = storeToRefs(useUserStore());
 
 const emit = defineEmits(["statusChange"]);
-// const selectedStatus = ref("");
+const selectedStatus = ref("");
 
 const updateStatus = async (status: string) => {
-  console.log("in function");
-  console.log("status:", status);
   try {
-    await fetchy("/api/status/:user", "PUT", {
-      body: status,
+    await fetchy("/api/status", "PUT", {
+      body: { newStatus: status },
     });
   } catch (e) {
-    console.log(e);
-    console.log("error found");
     return;
   }
   emit("statusChange", status);
-  console.log(status);
 };
+
+onBeforeMount(async () => {
+  let statusResult;
+  try {
+    statusResult = await fetchy("/api/status", "GET", {
+      query: { username: currentUsername.value },
+    });
+  } catch (_) {
+    statusResult = "Online";
+  }
+  // colored circles associated with each status
+  selectedStatus.value = statusResult.status.statusType;
+});
 </script>
 
 <template>
   <!-- Known issue with this portion calling the updateStatus function properly -->
-  <select name="statusDropdown" id="statusDropdown" onchange="updateStatus(this.value)">
-    <option value="Online" @click="updateStatus('Online')">Online</option>
-    <option value="Offline" @click="updateStatus('Offline')">Offline</option>
-    <option value="Away" @click="updateStatus('Away')">Away</option>
-    <option value="Focus" @click="updateStatus('Focus')">Focus</option>
+  <select name="statusDropdown" id="statusDropdown" v-model="selectedStatus" @change="() => updateStatus(selectedStatus)">
+    <option value="Online">🟢 Online</option>
+    <option value="Offline">🔴 Offline</option>
+    <option value="Away">🟡 Away</option>
+    <option value="Focus">🟣 Focus</option>
   </select>
+  <!-- <label>{{ selectedStatus }}</label> -->
 </template>

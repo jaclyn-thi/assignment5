@@ -1,9 +1,11 @@
 <script setup lang="ts">
+import StatusContainer from "@/components/Status/StatusContainer.vue";
 import { useToastStore } from "@/stores/toast";
 import { useUserStore } from "@/stores/user";
 import { storeToRefs } from "pinia";
 import { computed, onBeforeMount } from "vue";
 import { RouterLink, RouterView, useRoute } from "vue-router";
+const { currentUsername } = storeToRefs(useUserStore());
 
 const currentRoute = useRoute();
 const currentRouteName = computed(() => currentRoute.name);
@@ -27,12 +29,15 @@ onBeforeMount(async () => {
       <div class="title">
         <img src="@/assets/images/logo.svg" />
         <RouterLink :to="{ name: 'Home' }">
-          <h1>Social Media App</h1>
+          <h1>Productive.io</h1>
         </RouterLink>
       </div>
       <ul>
         <li>
           <RouterLink :to="{ name: 'Home' }" :class="{ underline: currentRouteName == 'Home' }"> Home </RouterLink>
+        </li>
+        <li>
+          <StatusContainer />
         </li>
         <li v-if="isLoggedIn">
           <RouterLink :to="{ name: 'Settings' }" :class="{ underline: currentRouteName == 'Settings' }"> Settings </RouterLink>
