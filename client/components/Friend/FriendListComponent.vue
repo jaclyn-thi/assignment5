@@ -3,6 +3,7 @@ import { onBeforeMount, ref } from "vue";
 import { fetchy } from "../../utils/fetchy";
 import FriendComponent from "@/components/Friend/FriendComponent.vue";
 import FriendRequests from "@/components/Friend/FriendRequests.vue";
+import FriendRequestForm from "@/components/Friend/FriendRequestForm.vue";
 
 const loaded = ref(false);
 const friends = ref<Array<string>>([]);
@@ -30,10 +31,41 @@ onBeforeMount(async () => {
       <FriendComponent :friend="friend" @refreshFriends="getFriends" />
     </p>
   </section>
-  <section class="addFriend">
-    <AddFriend />
+  <section class="FriendRequestForm">
+    <FriendRequestForm />
   </section>
   <section class="friendRequests">
     <FriendRequests @refreshFriends="getFriends" />
   </section>
 </template>
+
+<style scoped>
+section {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+section,
+p {
+  margin: 0 auto;
+  max-width: 60em;
+}
+
+article {
+  background-color: var(--base-bg);
+  border-radius: 1em;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+  padding: 1em;
+}
+
+.requests {
+  padding: 1em;
+}
+
+h1 {
+  text-align: center;
+}
+</style>

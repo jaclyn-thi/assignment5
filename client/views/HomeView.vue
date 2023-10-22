@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import StatusDisplay from "@/components/Status/StatusDisplay.vue";
+import TimedResourceComponent from "@/components/TimedResource/TimedResourceComponent.vue";
 import { useUserStore } from "@/stores/user";
 import { storeToRefs } from "pinia";
 
@@ -13,6 +14,7 @@ const { currentUsername, isLoggedIn } = storeToRefs(useUserStore());
       <h1 v-else>Please login!</h1>
       <p>Testing display status:</p>
       <StatusDisplay username="bee1" />
+      <TimedResourceComponent />
     </section>
   </main>
 </template>

@@ -26,9 +26,8 @@ onBeforeMount(async () => {
       query: { username: currentUsername.value },
     });
   } catch (_) {
-    statusResult = "Online";
+    statusResult = await fetchy("/api/status", "POST");
   }
-  // colored circles associated with each status
   selectedStatus.value = statusResult.status.statusType;
 });
 </script>

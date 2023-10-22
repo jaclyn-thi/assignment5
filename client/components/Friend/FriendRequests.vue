@@ -4,6 +4,8 @@ import { storeToRefs } from "pinia";
 import { onBeforeMount, ref } from "vue";
 import { fetchy } from "../../utils/fetchy";
 
+const { currentUsername } = storeToRefs(useUserStore());
+
 let requests = ref<Array<Record<string, string>>>([]);
 
 const loaded = ref(false);
@@ -48,13 +50,15 @@ onBeforeMount(async () => {
 <template>
   <section v-if="isLoggedIn">
     <section class="requests" v-if="loaded && requests.length !== 0">
-      <label>Friend Requests</label>
-      <article v-for="request in requests" :key="request._id">
-        <section v-if="request.from"></section>
-        {{ request.from }}
-        <button @click="accept(request.from)">Accept</button>
-        <button @click="reject(request.from)">Reject</button>
-      </article>
+      <h3>Friend Requests</h3>
+      <div v-for="request in requests" :key="request._id">
+        <section v-if="request.status === 'pending' && request.from !== currentUsername">
+          {{ request.from }}
+          <button @click="accept(request.from)">Accept</button>
+          <button @click="reject(request.from)">Reject</button>
+        </section>
+        <div v-else class="nothing"></div>
+      </div>
     </section>
     <p v-else-if="loaded">No friends found</p>
     <p v-else>Loading...</p>
@@ -85,5 +89,10 @@ article {
 
 .requests {
   padding: 1em;
+}
+
+.nothing {
+  padding: 0;
+  margin: 0;
 }
 </style>

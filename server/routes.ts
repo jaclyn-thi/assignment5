@@ -177,7 +177,7 @@ class Routes {
   }
 
   //FocusScore routes
-  @Router.post("/FocusScores/:user")
+  @Router.post("/FocusScores")
   async createFocusScore(session: WebSessionDoc) {
     // for a user in current session without a score, instantiate FocusScore associated with user to 0
     const user = WebSession.getUser(session);
