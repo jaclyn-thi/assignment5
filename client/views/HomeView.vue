@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import FocusScoreComponent from "@/components/FocusScore/FocusScoreComponent.vue";
 import StatusDisplay from "@/components/Status/StatusDisplay.vue";
 import TimedResourceComponent from "@/components/TimedResource/TimedResourceComponent.vue";
 import { useUserStore } from "@/stores/user";
@@ -15,6 +16,8 @@ const { currentUsername, isLoggedIn } = storeToRefs(useUserStore());
       <p>Testing display status:</p>
       <StatusDisplay username="bee1" />
       <TimedResourceComponent />
+      <p>Testing focusscore for user coffee:</p>
+      <FocusScoreComponent username="coffee" />
     </section>
   </main>
 </template>

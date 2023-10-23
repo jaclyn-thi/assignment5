@@ -9,26 +9,13 @@ const props = defineProps({ username: { type: String, default: "" } });
 
 const displayedStatus = ref("");
 
-// const updateStatus = async () => {
-//   try {
-//     let status = await fetchy("/api/status", "GET");
-//     console.log("status", status);
-//     displayedStatus.value = status;
-//   } catch (e) {
-//     console.log(e);
-//     console.log("error found");
-//     return;
-//   }
-//   console.log(status);
-// };
-
 onBeforeMount(async () => {
   let statusResult;
   try {
     // statusResult = await fetchy("/api/status", "GET", {
     //   query: { username: props.username },
     // });
-    //not working for the user I want ;
+
     statusResult = await getStatus(props.username);
   } catch (_) {
     return;
@@ -38,7 +25,7 @@ onBeforeMount(async () => {
 </script>
 
 <template>
-  <div>{{ currentStatus }}</div>
+  <div>{{ displayedStatus }}</div>
 </template>
 
 <style scoped>

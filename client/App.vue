@@ -1,10 +1,14 @@
 <script setup lang="ts">
+import FocusScoreComponent from "@/components/FocusScore/FocusScoreComponent.vue";
 import StatusContainer from "@/components/Status/StatusContainer.vue";
+import { useFocusScoreStore } from "@/stores/focusscore";
 import { useToastStore } from "@/stores/toast";
 import { useUserStore } from "@/stores/user";
 import { storeToRefs } from "pinia";
 import { computed, onBeforeMount } from "vue";
 import { RouterLink, RouterView, useRoute } from "vue-router";
+
+const { updateFocusScore } = useFocusScoreStore();
 const { currentUsername } = storeToRefs(useUserStore());
 
 const currentRoute = useRoute();
@@ -37,7 +41,11 @@ onBeforeMount(async () => {
           <RouterLink :to="{ name: 'Home' }" :class="{ underline: currentRouteName == 'Home' }"> Home </RouterLink>
         </li>
         <li>
-          <StatusContainer />
+          <StatusContainer v-if="isLoggedIn" />
+        </li>
+        <li>
+          <FocusScoreComponent v-if="isLoggedIn" :username="currentUsername" />
+          <!-- <button @click="updateFocusScore(currentUsername, 100)">Add 100</button> -->
         </li>
         <li v-if="isLoggedIn">
           <RouterLink :to="{ name: 'Friends' }" :class="{ underline: currentRouteName == 'Friends' }"> Friends </RouterLink>
