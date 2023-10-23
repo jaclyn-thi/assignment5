@@ -191,7 +191,7 @@ class Routes {
     // increase the FocusScore associated with User by the specified amount of points
   }
 
-  @Router.put("/FocusScore/set/:user")
+  @Router.put("/FocusScore/set")
   async setScore(session: WebSessionDoc, points: number) {
     if (points == null) {
       throw new NotAllowedError("Invalid score!");
@@ -202,7 +202,7 @@ class Routes {
     // increase the FocusScore associated with User by the specified amount of points
   }
 
-  @Router.put("/FocusScore/update/:username")
+  @Router.put("/FocusScore/update")
   async updateScore(username: string, points: number) {
     if (points == null) {
       throw new NotAllowedError("Invalid score!");

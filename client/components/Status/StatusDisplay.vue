@@ -1,6 +1,9 @@
 <script setup lang="ts">
+import { useStatusStore } from "@/stores/status";
+import { storeToRefs } from "pinia";
 import { onBeforeMount, ref } from "vue";
-import { fetchy } from "../../utils/fetchy";
+const { currentStatus } = storeToRefs(useStatusStore());
+const { getStatus } = useStatusStore();
 
 const props = defineProps({ username: { type: String, default: "" } });
 
@@ -22,18 +25,20 @@ const displayedStatus = ref("");
 onBeforeMount(async () => {
   let statusResult;
   try {
-    statusResult = await fetchy("/api/status", "GET", {
-      query: { username: props.username },
-    });
+    // statusResult = await fetchy("/api/status", "GET", {
+    //   query: { username: props.username },
+    // });
+    //not working for the user I want ;
+    statusResult = await getStatus(props.username);
   } catch (_) {
-    statusResult = "Online";
+    return;
   }
-  displayedStatus.value = statusResult.status.statusType;
+  displayedStatus.value = statusResult;
 });
 </script>
 
 <template>
-  <div>{{ displayedStatus }}</div>
+  <div>{{ currentStatus }}</div>
 </template>
 
 <style scoped>

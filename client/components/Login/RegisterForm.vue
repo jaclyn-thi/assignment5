@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import router from "@/router";
 import { useUserStore } from "@/stores/user";
+import { fetchy } from "@/utils/fetchy";
 import { ref } from "vue";
 
 const username = ref("");
@@ -10,6 +11,8 @@ const { createUser, loginUser, updateSession } = useUserStore();
 async function register() {
   await createUser(username.value, password.value);
   await loginUser(username.value, password.value);
+  await fetchy("/api/status", "POST"); //create status for new user
+  await fetchy("/api/FocusScore", "POST"); //create score for new user
   void updateSession();
   void router.push({ name: "Home" });
 }
