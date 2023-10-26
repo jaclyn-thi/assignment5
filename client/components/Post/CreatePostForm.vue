@@ -1,3 +1,4 @@
+<!-- note: my project does not use posts -->
 <script setup lang="ts">
 import { ref } from "vue";
 import { fetchy } from "../../utils/fetchy";

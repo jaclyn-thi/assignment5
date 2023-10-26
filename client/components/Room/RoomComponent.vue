@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import TimedResourceComponent from "@/components/TimedResource/TimedResourceComponent.vue";
 import { useUserStore } from "@/stores/user";
 import { fetchy } from "@/utils/fetchy";
 import { storeToRefs } from "pinia";
@@ -9,22 +10,13 @@ const { currentUsername } = storeToRefs(useUserStore());
 // contains all occupants in the room
 const props = defineProps(["hostName"]);
 const occupants = ref<Array<string>>([]);
+
 const loaded = ref(false);
 
-//refresh occupants function activated by event of a user joining?
-// async function refreshOccupants() {
-//   let occupantResult;
-//   try {
-//     occupantResult = await fetchy(`/api/room/occupants/${props.hostName}`, "GET");
-//     // take user back to home page
-//     void router.push({ name: "Home" });
-//   } catch (_) {
-//     return _;
-//   }
-//   occupants.value = occupantResult.occupants; //as user ids
-// }
-
 //for user to remove themselves from a room
+
+//write reward room function to be called when @rewardRoom event recieved
+
 async function removeUser() {
   try {
     await fetchy(`/api/room/occupants/${props.hostName}`, "DELETE", {
@@ -45,8 +37,14 @@ onBeforeMount(async () => {
     loaded.value = true;
     //set occupants of room
     //will this update properly??
+
     occupants.value = roomResult.occupants;
-    console.log(occupants);
+    console.log("occupants", occupants);
+
+    // occupantResult = roomResult.occupants;
+    // for (const occupantId in occupantResult) {
+    //   const occupantName = await fetchy(`/users/username/:_id`, "GET");
+    // }
   } catch (_) {
     return;
   }
@@ -56,14 +54,9 @@ onBeforeMount(async () => {
 <template>
   <section class="room">
     <h1>{{ props.hostName }}'s Focus Room</h1>
+    <TimedResourceComponent />
     <section class="occupants">
       <p><b>In room:</b></p>
-      <span class="occupant">
-        <img class="userIcon" src="@/assets/images/user-svgrepo-com.svg" />
-        <p>
-          <b>{{ props.hostName }}</b> (host)
-        </p>
-      </span>
       <span class="occupant" v-for="occupant in occupants" :key="occupant">
         <img class="userIcon" src="@/assets/images/user-svgrepo-com.svg" />
         <label>{{ occupant }}</label>
@@ -78,7 +71,7 @@ onBeforeMount(async () => {
   background-color: var(--base-bg);
   border-radius: 1em;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 0.5em;
   padding: 1em;
   max-width: 50px;

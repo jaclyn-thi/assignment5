@@ -28,6 +28,13 @@ class Routes {
     return await User.getUserByUsername(username);
   }
 
+  //added to get username from user id in components
+  // @Router.get("/users/username/:_id")
+  // async getUsername(_id: ObjectId) {
+  //   const username = User.getUserById(_id);
+  //   return username;
+  // }
+
   @Router.post("/users")
   async createUser(session: WebSessionDoc, username: string, password: string) {
     WebSession.isLoggedOut(session);
@@ -332,10 +339,11 @@ class Routes {
       throw new NotAllowedError("Can't reward yet!");
     }
 
-    const occupants = room.occupants;
-    console.log("room", room);
-    const everyone = occupants.concat([room.host]);
-    console.log("everyone", everyone);
+    const everyone = room.occupants;
+    // const occupants = room.occupants
+    //console.log("room", room);
+    //const everyone = occupants.concat([room.host]);
+    //console.log("everyone", everyone);
     for (const person of everyone) {
       //update score for everyone in room acccording to status of timer
       console.log(timer.duration * (1 + everyone.length / 10));

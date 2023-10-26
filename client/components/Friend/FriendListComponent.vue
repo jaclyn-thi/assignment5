@@ -1,9 +1,11 @@
 <script setup lang="ts">
+import FocusScoreComponent from "@/components/FocusScore/FocusScoreComponent.vue";
+import FriendComponent from "@/components/Friend/FriendComponent.vue";
+import FriendRequestForm from "@/components/Friend/FriendRequestForm.vue";
+import FriendRequests from "@/components/Friend/FriendRequests.vue";
+import StatusDisplay from "@/components/Status/StatusDisplay.vue";
 import { onBeforeMount, ref } from "vue";
 import { fetchy } from "../../utils/fetchy";
-import FriendComponent from "@/components/Friend/FriendComponent.vue";
-import FriendRequests from "@/components/Friend/FriendRequests.vue";
-import FriendRequestForm from "@/components/Friend/FriendRequestForm.vue";
 
 const loaded = ref(false);
 const friends = ref<Array<string>>([]);
@@ -27,8 +29,10 @@ onBeforeMount(async () => {
 <template>
   <h1>Friends</h1>
   <section class="friends" v-if="loaded">
-    <p v-for="friend in friends" :key="friend">
+    <p class="friendItem" v-for="friend in friends" :key="friend">
       <FriendComponent :friend="friend" @refreshFriends="getFriends" />
+      <FocusScoreComponent :username="friend" />
+      <StatusDisplay :username="friend" />
     </p>
   </section>
   <section class="FriendRequestForm">
@@ -49,7 +53,7 @@ section {
 section,
 p {
   margin: 0 auto;
-  max-width: 60em;
+  max-width: 100em;
 }
 
 article {
@@ -67,5 +71,11 @@ article {
 
 h1 {
   text-align: center;
+}
+
+.friendItem {
+  background-color: rgb(134, 134, 134);
+  padding: 1em;
+  border-radius: 20%;
 }
 </style>

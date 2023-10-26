@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import FocusScoreComponent from "@/components/FocusScore/FocusScoreComponent.vue";
+import JoinRoom from "@/components/Room/JoinRoom.vue";
 import StatusContainer from "@/components/Status/StatusContainer.vue";
 import { useFocusScoreStore } from "@/stores/focusscore";
 import { useToastStore } from "@/stores/toast";
@@ -39,6 +40,10 @@ onBeforeMount(async () => {
       <ul>
         <li>
           <RouterLink :to="{ name: 'Home' }" :class="{ underline: currentRouteName == 'Home' }"> Home </RouterLink>
+        </li>
+        <li>
+          <p>My FocusRoom:</p>
+          <JoinRoom :hostName="currentUsername" />
         </li>
         <li>
           <StatusContainer v-if="isLoggedIn" />
