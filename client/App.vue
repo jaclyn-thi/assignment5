@@ -45,7 +45,6 @@ onBeforeMount(async () => {
         </li>
         <li>
           <FocusScoreComponent v-if="isLoggedIn" :username="currentUsername" />
-          <!-- <button @click="updateFocusScore(currentUsername, 100)">Add 100</button> -->
         </li>
         <li v-if="isLoggedIn">
           <RouterLink :to="{ name: 'Friends' }" :class="{ underline: currentRouteName == 'Friends' }"> Friends </RouterLink>

@@ -13,6 +13,7 @@ async function register() {
   await loginUser(username.value, password.value);
   await fetchy("/api/status", "POST"); //create status for new user
   await fetchy("/api/FocusScores", "POST"); //create score for new user
+  await fetchy("/api/rooms", "POST"); //create room for new user
   void updateSession();
   void router.push({ name: "Home" });
 }

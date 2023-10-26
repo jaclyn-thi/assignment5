@@ -23,9 +23,6 @@ async function updateScore(points: number) {
 onBeforeMount(async () => {
   let scoreResult;
   try {
-    // scoreResult = await fetchy("/api/FocusScore", "GET", {
-    //   query: { username: props.username },
-    // });
     scoreResult = await getFocusScore(props.username);
     console.log(scoreResult);
   } catch (_) {
@@ -38,6 +35,4 @@ onBeforeMount(async () => {
 
 <template>
   <label><b>FocusScore:</b> {{ displayedScore }}</label>
-  <!-- for testing purposes: -->
-  <button @click="updateScore(100)">Add 100</button>
 </template>

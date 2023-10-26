@@ -141,39 +141,40 @@ class Routes {
   }
 
   //Room routes
-  @Router.post("/rooms/:user")
+  @Router.post("/rooms")
   async createRoom(session: WebSessionDoc) {
     const user = WebSession.getUser(session);
     return await Room.create(user);
   }
 
-  @Router.get("/rooms")
+  @Router.get("/rooms/:hostName")
   async getRoom(hostName: string) {
     const host = await User.getUserByUsername(hostName);
     return await Room.getRoom(host._id);
   }
 
-  @Router.get("/room/occupants")
+  @Router.get("/room/occupants/:hostName")
   async getOccupants(hostName: string) {
     //get occupants for the room with host name host
     const host = await User.getUserByUsername(hostName);
     return await Room.getOccupants(host._id);
   }
 
-  @Router.put("/room/occupants/:username")
+  @Router.put("/room/occupants/:hostName")
   //add user to current session user's room
-  async addUser(username: string, session: WebSessionDoc) {
+  async addUser(username: string, hostName: string) {
     const user = await User.getUserByUsername(username);
-    const host = WebSession.getUser(session);
-    return await Room.addUser(user._id, host);
+    //const host = WebSession.getUser(session);
+    const hostUser = await User.getUserByUsername(hostName);
+    return await Room.addUser(user._id, hostUser._id);
   }
 
-  @Router.put("/room/occupants/remove/:username")
-  async removeUser(username: string, session: WebSessionDoc) {
+  @Router.delete("/room/occupants/:hostName")
+  async removeUser(username: string, hostName: string) {
     // remove user from room.occupants
     const user = await User.getUserByUsername(username);
-    const host = WebSession.getUser(session);
-    return await Room.removeUser(user._id, host);
+    const hostUser = await User.getUserByUsername(hostName);
+    return await Room.removeUser(user._id, hostUser._id);
   }
 
   //FocusScore routes
@@ -287,29 +288,31 @@ class Routes {
   // timedresource tied to that room.
 
   @Router.put("/focusroom/:username")
-  async addToFocusRoom(username: string, session: WebSessionDoc) {
+  async addToFocusRoom(username: string, host: string) {
     // for a user with username, add user to FocusRoom if they are friends with the host of the focusroom
     const user = await User.getUserByUsername(username);
-    const host = WebSession.getUser(session);
-    const friendArray = await Friend.getFriends(host);
+    const hostUser = await User.getUserByUsername(host);
+    const friendArray = await Friend.getFriends(hostUser._id);
 
     for (const friend of friendArray) {
       if (String(user._id) === String(friend)) {
-        return await Room.addUser(user._id, host);
+        return await Room.addUser(user._id, hostUser._id);
       }
     }
     throw new NotFoundError("Can only add friends of host!");
   }
 
   @Router.delete("/focusroom/:username")
-  async removeFromFocusRoom(username: string, session: WebSessionDoc) {
+  async removeFromFocusRoom(username: string, host: string) {
     // for a user with given username, remove user from FocusRoom if they are an occupant of that room
     //return await this.removeUser(username, session);
     const user = await User.getUserByUsername(username);
-    const host = WebSession.getUser(session);
-    return await Room.removeUser(user._id, host);
+    //const host = WebSession.getUser(session);
+    const hostUser = await User.getUserByUsername(host);
+    return await Room.removeUser(user._id, hostUser._id);
   }
 
+  //note to self: adjust this to account for occupants list being of username strings rather than ids
   @Router.put("/focusroom/reward/:_id")
   async rewardFocusRoom(_id: ObjectId) {
     // if focus timer in focus room is completed and function called, add points to the FocusScores of all occupants based on the duration of the focus timer, then reset timer

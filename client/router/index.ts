@@ -2,11 +2,14 @@ import { storeToRefs } from "pinia";
 import { createRouter, createWebHistory } from "vue-router";
 
 import { useUserStore } from "@/stores/user";
+//import { fetchy } from "@/utils/fetchy";
 import FriendView from "../views/FriendView.vue";
 import HomeView from "../views/HomeView.vue";
 import LoginView from "../views/LoginView.vue";
 import NotFoundView from "../views/NotFoundView.vue";
+import RoomView from "../views/RoomView.vue";
 import SettingView from "../views/SettingView.vue";
+//const { currentUsername } = storeToRefs(useUserStore());
 
 const router = createRouter({
   history: createWebHistory(),
@@ -41,6 +44,13 @@ const router = createRouter({
       meta: { requiresAuth: true },
     },
     {
+      path: "/rooms/:hostName",
+      name: "Room",
+      component: RoomView,
+      meta: { requiresAuth: true },
+      props: true,
+    },
+    {
       path: "/:catchAll(.*)",
       name: "not-found",
       component: NotFoundView,
@@ -51,12 +61,22 @@ const router = createRouter({
 /**
  * Navigation guards to prevent user from accessing wrong pages.
  */
-router.beforeEach((to, from) => {
+router.beforeEach(async (to, from) => {
+  // if in a room URL and going to a room that is not that room URL, extract the room ID from the room URL and use it to remove the session user
+  // from the room
   const { isLoggedIn } = storeToRefs(useUserStore());
 
   if (to.meta.requiresAuth && !isLoggedIn.value) {
     return { name: "Login" };
   }
+
+  // //if navigating out of a room, remove user from that room
+  // if (from.name === "Room" && from.path !== to.path) {
+  //   const hostName = from.params.hostName;
+  //   await fetchy(`/api/room/occupants/${hostName}`, "DELETE", {
+  //     query: { username: currentUsername.value },
+  //   });
+  // }
 });
 
 export default router;

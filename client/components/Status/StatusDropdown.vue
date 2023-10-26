@@ -12,9 +12,6 @@ const selectedStatus = ref("");
 
 const updateUserStatus = async (status: string) => {
   try {
-    // await fetchy("/api/status", "PUT", {
-    //   body: { newStatus: status },
-    // });
     await updateStatus(status);
   } catch (e) {
     return;
@@ -25,9 +22,6 @@ const updateUserStatus = async (status: string) => {
 onBeforeMount(async () => {
   let statusResult;
   try {
-    // statusResult = await fetchy("/api/status", "GET", {
-    //   query: { username: currentUsername.value },
-    // });
     statusResult = await getStatus(currentUsername.value);
   } catch (_) {
     return;

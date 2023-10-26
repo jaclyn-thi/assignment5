@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import FocusScoreComponent from "@/components/FocusScore/FocusScoreComponent.vue";
+import JoinRoom from "@/components/Room/JoinRoom.vue";
+import RoomComponent from "@/components/Room/RoomComponent.vue";
 import StatusDisplay from "@/components/Status/StatusDisplay.vue";
 import TimedResourceComponent from "@/components/TimedResource/TimedResourceComponent.vue";
 import { useUserStore } from "@/stores/user";
@@ -18,6 +20,9 @@ const { currentUsername, isLoggedIn } = storeToRefs(useUserStore());
       <TimedResourceComponent />
       <p>Testing focusscore for user coffee:</p>
       <FocusScoreComponent username="coffee" />
+      <p>Testing room component (user: crabby)</p>
+      <RoomComponent hostName="crabby" />
+      <JoinRoom hostName="crabby" />
     </section>
   </main>
 </template>
