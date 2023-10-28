@@ -11,6 +11,7 @@ export const useFocusScoreStore = defineStore(
       const scoreResult = await fetchy("/api/FocusScore", "GET", {
         query: { username: username },
       });
+      console.log("scoreResult.score", scoreResult.score);
       return scoreResult.score;
     };
 
@@ -25,6 +26,7 @@ export const useFocusScoreStore = defineStore(
           body: { username: username, points: points },
         });
         currentScore.value = scoreResult.score.score;
+        console.log("currentScore.value", currentScore.value);
       } catch (e) {
         return;
       }

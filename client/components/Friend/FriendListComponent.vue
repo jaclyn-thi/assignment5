@@ -76,6 +76,6 @@ h1 {
 .friendItem {
   background-color: rgb(134, 134, 134);
   padding: 1em;
-  border-radius: 20%;
+  border-radius: 1em;
 }
 </style>

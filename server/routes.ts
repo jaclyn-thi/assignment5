@@ -163,8 +163,14 @@ class Routes {
   @Router.get("/room/occupants/:hostName")
   async getOccupants(hostName: string) {
     //get occupants for the room with host name host
+    const occupantUsernames = [];
     const host = await User.getUserByUsername(hostName);
-    return await Room.getOccupants(host._id);
+    const occupantResult = await Room.getOccupants(host._id);
+    for (const occupantId of occupantResult.occupants) {
+      const occupant = await User.getUserById(occupantId);
+      occupantUsernames.push(occupant.username);
+    }
+    return { msg: "Occupant names found!", occupants: occupantUsernames };
   }
 
   @Router.put("/room/occupants/:hostName")
@@ -181,6 +187,7 @@ class Routes {
     // remove user from room.occupants
     const user = await User.getUserByUsername(username);
     const hostUser = await User.getUserByUsername(hostName);
+    console.log("Removing a user from a room (routes)");
     return await Room.removeUser(user._id, hostUser._id);
   }
 
@@ -320,38 +327,29 @@ class Routes {
   }
 
   //note to self: adjust this to account for occupants list being of username strings rather than ids
-  @Router.put("/focusroom/reward/:_id")
-  async rewardFocusRoom(_id: ObjectId) {
-    // if focus timer in focus room is completed and function called, add points to the FocusScores of all occupants based on the duration of the focus timer, then reset timer
-    // _id here should be _id of the room
+  @Router.put("/focusroom/reward/:hostName")
+  async rewardFocusRoom(hostName: string, duration: number) {
     // should be called by front end when focusroom timer has completed
-    const room = await Room.rooms.readOne({ _id });
+    const hostUser = await User.getUserByUsername(hostName);
+    // const room = await Room.rooms.readOne({ hostId: hostUser._id });
+    const room = await Room.getRoom(hostUser._id);
     if (room === null) {
       throw new NotFoundError("Room not found!");
     }
 
-    const timer = await TimedResource.timers.readOne({ resourceID: _id });
-    console.log(timer);
-    if (timer === null) {
-      throw new NotFoundError("Timer not found!");
-    }
-    if (Boolean(timer.completedStatus) !== true) {
-      throw new NotAllowedError("Can't reward yet!");
-    }
-
-    const everyone = room.occupants;
-    // const occupants = room.occupants
-    //console.log("room", room);
-    //const everyone = occupants.concat([room.host]);
-    //console.log("everyone", everyone);
-    for (const person of everyone) {
+    const occupants = room.occupants;
+    for (const person of occupants) {
       //update score for everyone in room acccording to status of timer
-      console.log(timer.duration * (1 + everyone.length / 10));
+      // console.log("occupants", occupants);
+      // console.log("duration", duration);
+      // console.log("occupants.length", occupants.length);
+      // console.log(duration * (1 + occupants.length / 10));
       const occupantScore = await FocusScore.getFocusScore(person);
-      await FocusScore.updateScore(person, { score: occupantScore.score + timer.duration * (1 + everyone.length / 10) });
+      // console.log("occupantScore", occupantScore.score);
+      // console.log("testing", occupantScore.score + duration * (1 + occupants.length / 10));
+      await FocusScore.updateScore(person, { score: occupantScore.score + duration * (1 + occupants.length / 10) });
     }
-    await TimedResource.updateTimer(_id, { completedStatus: false });
-    return { msg: "All users rewarded!", room: await Room.rooms.readOne({ _id }) };
+    return { msg: "All users rewarded!", room: await Room.rooms.readOne({ hostId: hostUser._id }) };
   }
 
   @Router.get("/leaderboard")

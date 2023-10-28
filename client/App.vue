@@ -41,7 +41,7 @@ onBeforeMount(async () => {
         <li>
           <RouterLink :to="{ name: 'Home' }" :class="{ underline: currentRouteName == 'Home' }"> Home </RouterLink>
         </li>
-        <li>
+        <li v-if="isLoggedIn">
           <p>My FocusRoom:</p>
           <JoinRoom :hostName="currentUsername" />
         </li>

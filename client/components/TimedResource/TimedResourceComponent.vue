@@ -11,14 +11,14 @@ function abortCountdown() {
 
 function startCountdown() {
   counting.value = true;
-  emit("timerStart");
+  emit("timerStart", duration.value);
 }
 
 function onCountdownEnd() {
   counting.value = false;
 
   //signal to parent room
-  emit("rewardRoom");
+  emit("rewardRoom", duration.value);
 }
 </script>
 

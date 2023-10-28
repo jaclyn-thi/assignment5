@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useFocusScoreStore } from "@/stores/focusscore";
+import { fetchy } from "@/utils/fetchy";
 import { storeToRefs } from "pinia";
 import { onBeforeMount, ref } from "vue";
 
@@ -8,13 +9,23 @@ const props = defineProps({ username: { type: String, default: "" }, points: { t
 const { currentScore } = storeToRefs(useFocusScoreStore());
 const { createFocusScore, updateFocusScore, getFocusScore } = useFocusScoreStore();
 
+//for testing only
+async function setScore(points: number) {
+  try {
+    await await fetchy(`/api/FocusScore/set`, "PUT", {
+      body: { points: points },
+    });
+    displayedScore.value = currentScore.value;
+  } catch (_) {
+    return;
+  }
+}
+
 async function updateScore(points: number) {
   try {
-    // await fetchy("/api/FocusScore", "POST", {
-    //   body: { username: props.username, points: points },
-    // });
     await updateFocusScore(props.username, points);
     displayedScore.value = currentScore.value;
+    console.log("displayedScore.value", displayedScore.value);
   } catch (_) {
     return;
   }
@@ -34,5 +45,20 @@ onBeforeMount(async () => {
 </script>
 
 <template>
-  <label><b>FocusScore:</b> {{ displayedScore }}</label>
+  <label class="score"><b>FocusScore:</b> {{ displayedScore }}</label>
+  <!-- for testing -->
+  <button @click="updateScore(100)">Add 100</button>
+  <button @click="setScore(500)">Set to 500</button>
 </template>
+
+<style scoped>
+.score {
+  background-color: var(--base-bg);
+  border-radius: 1em;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+  padding: 1em;
+  margin: 1em;
+}
+</style>
