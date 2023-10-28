@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import LeaderboardItem from "@/components/LeaderboardItem.vue";
+import LeaderboardItem from "@/components/Leaderboard/LeaderboardItem.vue";
 import { fetchy } from "@/utils/fetchy";
 import { onBeforeMount, ref } from "vue";
 const leaderboardItems = ref();
@@ -19,7 +19,7 @@ onBeforeMount(async () => {
 </script>
 
 <template>
-  <p class="leaderboardItem" v-for="item in leaderboardItems" :key="item">
-    <LeaderboardItem :username="item.username" :score="item.score" />
-  </p>
+  <ol class="leaderboardItem" v-for="item in leaderboardItems" :key="item">
+    <li><LeaderboardItem :username="item.user" :score="item.score" /></li>
+  </ol>
 </template>

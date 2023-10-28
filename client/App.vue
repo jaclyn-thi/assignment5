@@ -45,6 +45,9 @@ onBeforeMount(async () => {
           <p>My FocusRoom:</p>
           <JoinRoom :hostName="currentUsername" />
         </li>
+        <li v-if="isLoggedIn">
+          <RouterLink :to="{ name: 'Leaderboard' }" :class="{ underline: currentRouteName == 'Leaderboard' }"> Leaderboard </RouterLink>
+        </li>
         <li>
           <StatusContainer v-if="isLoggedIn" />
         </li>

@@ -367,7 +367,7 @@ class Routes {
     }
 
     const scoresArray = [];
-    scoresArray.push({ user: userName, score: userFocusScore.score }); //add current session user's score to leaderboard
+    scoresArray.push({ user: userName.username, score: userFocusScore.score }); //add current session user's score to leaderboard
 
     for (const friendUser of friendUsers) {
       //add current session user's friend's scores to leaderboard

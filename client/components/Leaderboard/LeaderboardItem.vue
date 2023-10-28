@@ -4,7 +4,7 @@ const props = defineProps(["username", "score"]);
 
 <template>
   <div>
-    <b>{{ props.username }}</b>
+    <b>Username: {{ props.username }}</b>
   </div>
   <div><b>Score: </b>{{ props.score }}</div>
 </template>

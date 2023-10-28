@@ -1,12 +1,16 @@
 <script setup lang="ts">
 import { useFocusScoreStore } from "@/stores/focusscore";
+import { useUserStore } from "@/stores/user";
 import { fetchy } from "@/utils/fetchy";
 import { storeToRefs } from "pinia";
-import { onBeforeMount } from "vue";
+import { onBeforeMount, ref } from "vue";
 
 //const displayedScore = ref(0);
 const props = defineProps({ username: { type: String, default: "" }, points: { type: Number, default: 0 } });
 const { currentScore } = storeToRefs(useFocusScoreStore());
+const { currentUsername } = storeToRefs(useUserStore());
+
+const displayScore = ref(0);
 const { createFocusScore, updateFocusScore, getFocusScore } = useFocusScoreStore();
 
 //for testing only
@@ -37,12 +41,14 @@ onBeforeMount(async () => {
     console.log("Error");
     return;
   }
+  displayScore.value = scoreResult;
   currentScore.value = scoreResult;
 });
 </script>
 
 <template>
-  <label class="score"><b>FocusScore:</b> {{ currentScore }}</label>
+  <label v-if="currentUsername === props.username" class="score"><b>FocusScore:</b> {{ currentScore }}</label>
+  <label v-else class="score"><b>FocusScore:</b> {{ displayScore }}</label>
   <!-- for testing -->
   <button @click="updateScore(100)">Add 100</button>
   <button @click="setScore(500)">Set to 500</button>

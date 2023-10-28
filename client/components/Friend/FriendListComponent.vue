@@ -3,6 +3,7 @@ import FocusScoreComponent from "@/components/FocusScore/FocusScoreComponent.vue
 import FriendComponent from "@/components/Friend/FriendComponent.vue";
 import FriendRequestForm from "@/components/Friend/FriendRequestForm.vue";
 import FriendRequests from "@/components/Friend/FriendRequests.vue";
+import JoinRoom from "@/components/Room/JoinRoom.vue";
 import StatusDisplay from "@/components/Status/StatusDisplay.vue";
 import { onBeforeMount, ref } from "vue";
 import { fetchy } from "../../utils/fetchy";
@@ -14,6 +15,7 @@ async function getFriends() {
   let allFriends;
   try {
     allFriends = await fetchy("/api/friends", "GET");
+    console.log("allFriends", allFriends);
   } catch (_) {
     return;
   }
@@ -33,6 +35,7 @@ onBeforeMount(async () => {
       <FriendComponent :friend="friend" @refreshFriends="getFriends" />
       <FocusScoreComponent :username="friend" />
       <StatusDisplay :username="friend" />
+      <JoinRoom :hostName="friend" />
     </p>
   </section>
   <section class="FriendRequestForm">
