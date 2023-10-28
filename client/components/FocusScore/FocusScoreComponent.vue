@@ -2,9 +2,9 @@
 import { useFocusScoreStore } from "@/stores/focusscore";
 import { fetchy } from "@/utils/fetchy";
 import { storeToRefs } from "pinia";
-import { onBeforeMount, ref } from "vue";
+import { onBeforeMount } from "vue";
 
-const displayedScore = ref(0);
+//const displayedScore = ref(0);
 const props = defineProps({ username: { type: String, default: "" }, points: { type: Number, default: 0 } });
 const { currentScore } = storeToRefs(useFocusScoreStore());
 const { createFocusScore, updateFocusScore, getFocusScore } = useFocusScoreStore();
@@ -12,10 +12,10 @@ const { createFocusScore, updateFocusScore, getFocusScore } = useFocusScoreStore
 //for testing only
 async function setScore(points: number) {
   try {
-    await await fetchy(`/api/FocusScore/set`, "PUT", {
+    await fetchy(`/api/FocusScore/set`, "PUT", {
       body: { points: points },
     });
-    displayedScore.value = currentScore.value;
+    //displayedScore.value = currentScore.value;
   } catch (_) {
     return;
   }
@@ -24,8 +24,8 @@ async function setScore(points: number) {
 async function updateScore(points: number) {
   try {
     await updateFocusScore(props.username, points);
-    displayedScore.value = currentScore.value;
-    console.log("displayedScore.value", displayedScore.value);
+    //displayedScore.value = currentScore.value;
+    //console.log("displayedScore.value", displayedScore.value);
   } catch (_) {
     return;
   }
@@ -40,12 +40,13 @@ onBeforeMount(async () => {
     console.log("Error");
     return;
   }
-  displayedScore.value = scoreResult;
+  // displayedScore.value = scoreResult;
+  currentScore.value = scoreResult;
 });
 </script>
 
 <template>
-  <label class="score"><b>FocusScore:</b> {{ displayedScore }}</label>
+  <label class="score"><b>FocusScore:</b> {{ currentScore }}</label>
   <!-- for testing -->
   <button @click="updateScore(100)">Add 100</button>
   <button @click="setScore(500)">Set to 500</button>
