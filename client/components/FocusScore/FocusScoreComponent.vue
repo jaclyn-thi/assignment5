@@ -15,7 +15,6 @@ async function setScore(points: number) {
     await fetchy(`/api/FocusScore/set`, "PUT", {
       body: { points: points },
     });
-    //displayedScore.value = currentScore.value;
   } catch (_) {
     return;
   }
@@ -24,8 +23,6 @@ async function setScore(points: number) {
 async function updateScore(points: number) {
   try {
     await updateFocusScore(props.username, points);
-    //displayedScore.value = currentScore.value;
-    //console.log("displayedScore.value", displayedScore.value);
   } catch (_) {
     return;
   }
@@ -40,7 +37,6 @@ onBeforeMount(async () => {
     console.log("Error");
     return;
   }
-  // displayedScore.value = scoreResult;
   currentScore.value = scoreResult;
 });
 </script>

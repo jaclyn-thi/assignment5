@@ -5,6 +5,7 @@ import { useUserStore } from "@/stores/user";
 import { fetchy } from "@/utils/fetchy";
 import FriendView from "../views/FriendView.vue";
 import HomeView from "../views/HomeView.vue";
+//import LeaderboardView from "../views/LeaderboardView.vue";
 import LoginView from "../views/LoginView.vue";
 import NotFoundView from "../views/NotFoundView.vue";
 import RoomView from "../views/RoomView.vue";
@@ -49,6 +50,11 @@ const router = createRouter({
       meta: { requiresAuth: true },
       props: true,
     },
+    // {
+    //   path: "/leaderboard",
+    //   name: "Leaderboard",
+    //   component: LeaderboardView,
+    // },
     {
       path: "/:catchAll(.*)",
       name: "not-found",

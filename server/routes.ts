@@ -354,22 +354,30 @@ class Routes {
 
   @Router.get("/leaderboard")
   async getLeaderboard(session: WebSessionDoc) {
-    const user = WebSession.getUser(session);
-    const userFocusScore = await FocusScore.getFocusScore(user);
+    const userId = WebSession.getUser(session);
+    const userName = await User.getUserById(userId);
+    const userFocusScore = await FocusScore.getFocusScore(userId);
 
-    const friends = await Friend.getFriends(user);
+    const friends = await Friend.getFriends(userId);
+    //convert ids to users:
+    const friendUsers = [];
+    for (const _id of friends) {
+      const user = await User.getUserById(_id);
+      friendUsers.push(user);
+    }
 
     const scoresArray = [];
-    scoresArray.push({ user: user, score: userFocusScore.score }); //add current session user's score to leaderboard
+    scoresArray.push({ user: userName, score: userFocusScore.score }); //add current session user's score to leaderboard
 
-    for (const friend of friends) {
+    for (const friendUser of friendUsers) {
       //add current session user's friend's scores to leaderboard
-      const score = await FocusScore.getFocusScore(friend);
-      scoresArray.push({ user: friend, score: score.score });
+      //onst friendUser = await User.getUserByUsername(friendName);
+      const score = await FocusScore.getFocusScore(friendUser._id);
+      scoresArray.push({ user: friendUser.username, score: score.score });
     }
 
     const leaderboard = scoresArray.sort((n1, n2) => {
-      // returns a list of {user: ObjectId, score: number} enums sorted by score
+      // returns a list of {user: string, score: number} enums sorted by score
       //https://copyprogramming.com/howto/typescript-sorting-based-on-enum-constants
       if (n1.score > n2.score) {
         return -1;

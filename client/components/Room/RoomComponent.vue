@@ -26,9 +26,6 @@ async function showPoints(duration: number) {
 //write reward room function to be called when @rewardRoom event recieved
 async function rewardUsers(duration: number) {
   try {
-    // await fetchy(`/api/focusroom/reward/${props.hostName}`, "PUT", {
-    //   body: { duration: duration },
-    // });
     for (const occupant of occupants.value) {
       console.log("occupant", occupant);
       const occupantScore = await getFocusScore(occupant);
