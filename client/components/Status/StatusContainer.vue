@@ -7,8 +7,10 @@ import StatusDropdown from "./StatusDropdown.vue";
 </script>
 
 <template>
-  <label class="userStatus"><b>Status:</b>{{ currentStatus }}</label>
-  <StatusDropdown />
+  <div class="container">
+    <label class="userStatus"><b>Status:</b>{{ currentStatus }}</label>
+    <StatusDropdown />
+  </div>
 </template>
 
 <style scoped>
@@ -20,4 +22,8 @@ import StatusDropdown from "./StatusDropdown.vue";
   gap: 0.5em;
   padding: 1em;
 }
+/* .container {
+  display: flex;
+  flex-direction: row;
+} */
 </style>

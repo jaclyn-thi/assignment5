@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import FocusScoreComponent from "@/components/FocusScore/FocusScoreComponent.vue";
 import FriendComponent from "@/components/Friend/FriendComponent.vue";
 import FriendRequestForm from "@/components/Friend/FriendRequestForm.vue";
 import FriendRequests from "@/components/Friend/FriendRequests.vue";
@@ -31,9 +30,9 @@ onBeforeMount(async () => {
 <template>
   <h1>Friends</h1>
   <section class="friends" v-if="loaded">
-    <p class="friendItem" v-for="friend in friends" :key="friend">
+    <p class="card" v-for="friend in friends" :key="friend">
       <FriendComponent :friend="friend" @refreshFriends="getFriends" />
-      <FocusScoreComponent :username="friend" />
+      <!-- <FocusScoreComponent :username="friend" /> -->
       <StatusDisplay :username="friend" />
       <JoinRoom :hostName="friend" />
     </p>
@@ -51,6 +50,7 @@ section {
   display: flex;
   flex-direction: column;
   gap: 1em;
+  width: 30em;
 }
 
 section,
@@ -76,9 +76,8 @@ h1 {
   text-align: center;
 }
 
-.friendItem {
-  background-color: rgb(134, 134, 134);
+/* .friendItem {
   padding: 1em;
   border-radius: 1em;
-}
+} */
 </style>

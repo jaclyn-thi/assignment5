@@ -12,10 +12,6 @@ const displayedStatus = ref("");
 onBeforeMount(async () => {
   let statusResult;
   try {
-    // statusResult = await fetchy("/api/status", "GET", {
-    //   query: { username: props.username },
-    // });
-
     statusResult = await getStatus(props.username);
   } catch (_) {
     return;

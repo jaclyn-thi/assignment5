@@ -40,3 +40,10 @@ onBeforeMount(async () => {
   </select>
   <!-- <label>{{ selectedStatus }}</label> -->
 </template>
+
+<style>
+/* select {
+  margin: 1em;
+  max-height: 2em;
+} */
+</style>

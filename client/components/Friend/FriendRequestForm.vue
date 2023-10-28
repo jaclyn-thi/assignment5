@@ -25,11 +25,11 @@ async function search(user: string) {
 <template>
   <section class="search">
     <h1>Add Friend</h1>
-    <input type="text" v-model="user" placeholder="Username" required />
-    <button type="submit" @click="search(user)">Search</button>
+    <input class="form-control-sm" type="text" v-model="user" placeholder="Username" required />
+    <button type="submit" class="btn btn-outline-primary" @click="search(user)">Search</button>
   </section>
   <section class="addFriend" v-if="searchUser">
-    <p>{{ searchUser }} <button type="submit" @click="sendFriendRequest(searchUser)">Request</button></p>
+    <p>{{ searchUser }} <button class="btn btn-outline-primary" type="submit" @click="sendFriendRequest(searchUser)">Request</button></p>
   </section>
 </template>
 

@@ -19,7 +19,16 @@ onBeforeMount(async () => {
 </script>
 
 <template>
-  <ol class="leaderboardItem" v-for="item in leaderboardItems" :key="item">
-    <li><LeaderboardItem :username="item.user" :score="item.score" /></li>
+  <h4 v-if="!loaded">Loading...</h4>
+  <ol>
+    <li v-for="item in leaderboardItems" :key="item"><LeaderboardItem :username="item.user" :score="item.score" /></li>
   </ol>
 </template>
+
+<style>
+ol {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+</style>

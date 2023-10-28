@@ -27,5 +27,5 @@ async function addUser() {
 </script>
 
 <template>
-  <button @click="addUser">Join Focus Room</button>
+  <button class="btn btn-primary" @click="addUser">Join Focus Room</button>
 </template>

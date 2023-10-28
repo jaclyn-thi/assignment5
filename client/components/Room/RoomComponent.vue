@@ -27,12 +27,7 @@ async function showPoints(duration: number) {
 async function rewardUsers(duration: number) {
   try {
     for (const occupant of occupants.value) {
-      console.log("occupant", occupant);
       const occupantScore = await getFocusScore(occupant);
-      console.log("duration:", duration);
-      console.log("occupantScore.score", occupantScore);
-      console.log("(1 + occupants.value.length / 10)", 1 + occupants.value.length / 10);
-      console.log("output score:", duration * (1 + occupants.value.length / 10));
       await updateFocusScore(occupant, duration * (1 + occupants.value.length / 10));
 
       countingDown.value = false;
@@ -47,7 +42,6 @@ async function rewardUsers(duration: number) {
 async function removeUser() {
   try {
     // take user back to home page
-    console.log("Calling removeUser");
     void router.push({ name: "Home" });
   } catch (_) {
     return _;
@@ -78,36 +72,41 @@ onBeforeMount(async () => {
     <h1>{{ props.hostName }}'s Focus Room</h1>
     <p v-if="countingDown">Possible FocusPoints gained: {{ possiblePoints }}</p>
     <TimedResourceComponent @rewardRoom="rewardUsers" @timerStart="showPoints" />
-    <section class="occupants">
-      <p><b>In room:</b></p>
+    <section class="occupants card">
+      <h4><b>In room:</b></h4>
       <span class="occupant" v-for="occupant in occupants" :key="occupant">
-        <img class="userIcon" src="@/assets/images/user-svgrepo-com.svg" />
+        <div>
+          <img class="userIcon" src="@/assets/images/user-svgrepo-com.svg" />
+        </div>
         <label>{{ occupant }}</label>
       </span>
     </section>
-    <button @click="removeUser">Leave Room</button>
+    <button class="btn btn-danger btn-sm" @click="removeUser">Leave Room</button>
   </section>
 </template>
 
 <style scoped>
 .occupant {
-  background-color: var(--base-bg);
+  /* background-color: var(--base-bg); */
   border-radius: 1em;
   display: flex;
   flex-direction: row;
-  gap: 0.5em;
-  padding: 1em;
-  max-width: 50px;
-  max-height: 100px;
 }
 .userIcon {
-  width: 48px;
-  height: 48px;
+  width: 20px;
+  height: 20px;
+  background-color: var(--base-bg);
+  margin: 2px;
+  border-radius: 100%;
 }
 
 .room {
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  border-color: rgb(176, 176, 176);
-  border-style: solid;
+  justify-content: center;
+}
+
+.occupants {
 }
 </style>

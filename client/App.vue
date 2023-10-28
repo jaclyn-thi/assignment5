@@ -32,7 +32,7 @@ onBeforeMount(async () => {
   <header>
     <nav>
       <div class="title">
-        <img src="@/assets/images/logo.svg" />
+        <img src="@/assets/images/hourglass-split.svg" />
         <RouterLink :to="{ name: 'Home' }">
           <h1>Productive.io</h1>
         </RouterLink>
@@ -41,8 +41,9 @@ onBeforeMount(async () => {
         <li>
           <RouterLink :to="{ name: 'Home' }" :class="{ underline: currentRouteName == 'Home' }"> Home </RouterLink>
         </li>
-        <li v-if="isLoggedIn">
-          <p>My FocusRoom:</p>
+        <li class="focusRoomLabel">My FocusRoom:</li>
+        <li class="personalRoom" v-if="isLoggedIn">
+          <!-- <p>My FocusRoom:</p> -->
           <JoinRoom :hostName="currentUsername" />
         </li>
         <li v-if="isLoggedIn">
@@ -56,6 +57,8 @@ onBeforeMount(async () => {
         </li>
         <li v-if="isLoggedIn">
           <RouterLink :to="{ name: 'Friends' }" :class="{ underline: currentRouteName == 'Friends' }"> Friends </RouterLink>
+        </li>
+        <li v-if="isLoggedIn">
           <RouterLink :to="{ name: 'Settings' }" :class="{ underline: currentRouteName == 'Settings' }"> Settings </RouterLink>
         </li>
         <li v-else>

@@ -50,8 +50,8 @@ onBeforeMount(async () => {
   <label v-if="currentUsername === props.username" class="score"><b>FocusScore:</b> {{ currentScore }}</label>
   <label v-else class="score"><b>FocusScore:</b> {{ displayScore }}</label>
   <!-- for testing -->
-  <button @click="updateScore(100)">Add 100</button>
-  <button @click="setScore(500)">Set to 500</button>
+  <!-- <button @click="updateScore(100)">Add 100</button>
+  <button @click="setScore(500)">Set to 500</button> -->
 </template>
 
 <style scoped>

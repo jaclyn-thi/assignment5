@@ -15,6 +15,7 @@ async function deleteFriend(friend: string) {
 </script>
 
 <template>
-  <div>{{ props.friend }}</div>
-  <button @click="deleteFriend(props.friend)">Delete</button>
+  <div>{{ props.friend }} <button class="btn btn-outline-danger btn-sm" @click="deleteFriend(props.friend)">Delete</button></div>
 </template>
+
+<style></style>
