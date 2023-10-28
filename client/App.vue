@@ -41,7 +41,7 @@ onBeforeMount(async () => {
         <li>
           <RouterLink :to="{ name: 'Home' }" :class="{ underline: currentRouteName == 'Home' }"> Home </RouterLink>
         </li>
-        <li class="focusRoomLabel">My FocusRoom:</li>
+        <li v-if="isLoggedIn" class="focusRoomLabel">My FocusRoom:</li>
         <li class="personalRoom" v-if="isLoggedIn">
           <!-- <p>My FocusRoom:</p> -->
           <JoinRoom :hostName="currentUsername" />
@@ -78,7 +78,7 @@ onBeforeMount(async () => {
 
 nav {
   padding: 1em 2em;
-  background-color: lightgray;
+  background-color: #aee6f2;
   display: flex;
   align-items: center;
 }

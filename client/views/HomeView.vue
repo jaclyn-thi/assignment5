@@ -20,7 +20,7 @@ const { currentUsername, isLoggedIn } = storeToRefs(useUserStore());
       <p>Testing room component (user: crabby)</p>
       <RoomComponent hostName="crabby" />
       <JoinRoom hostName="crabby" /> -->
-      <section class="HomepageSquares container-fluid">
+      <section v-if="isLoggedIn" class="HomepageSquares container-fluid">
         <div class="row">
           <section class="col-sm">
             <LeaderboardComponent />

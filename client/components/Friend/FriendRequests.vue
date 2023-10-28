@@ -52,10 +52,10 @@ onBeforeMount(async () => {
     <section class="requests" v-if="loaded && requests.length !== 0">
       <h3>Friend Requests</h3>
       <div v-for="request in requests" :key="request._id">
-        <section v-if="request.status === 'pending' && request.from !== currentUsername">
-          {{ request.from }}
-          <button @click="accept(request.from)">Accept</button>
-          <button @click="reject(request.from)">Reject</button>
+        <section class="card" v-if="request.status === 'pending' && request.from !== currentUsername">
+          <h4>{{ request.from }}</h4>
+          <button class="btn btn-outline-primary" @click="accept(request.from)">Accept</button>
+          <button class="btn btn-outline-danger" @click="reject(request.from)">Reject</button>
         </section>
         <div v-else class="nothing"></div>
       </div>

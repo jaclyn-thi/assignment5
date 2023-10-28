@@ -4,13 +4,15 @@ import { fetchy } from "../../utils/fetchy";
 
 const user = ref("");
 let searchUser = ref("");
+const error = ref(false);
 
 async function sendFriendRequest(user: string) {
   try {
     await fetchy(`/api/friend/requests/${user}`, "POST");
   } catch {
-    return { msg: "Friend request sent!" };
+    error.value = true;
   }
+  return { msg: "Friend request sent!" };
 }
 
 async function search(user: string) {
@@ -24,6 +26,7 @@ async function search(user: string) {
 
 <template>
   <section class="search">
+    <h4 v-if="error" style="color: darkred">Already friends with user.</h4>
     <h1>Add Friend</h1>
     <input class="form-control-sm" type="text" v-model="user" placeholder="Username" required />
     <button type="submit" class="btn btn-outline-primary" @click="search(user)">Search</button>
